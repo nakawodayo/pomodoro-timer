@@ -1,50 +1,72 @@
-# React + TypeScript + Vite
+# ポモドーロタイマー
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 概要
+本アプリは、ポモドーロ・テクニックを用いた作業管理用タイマーです。  
+作業時間（25分）と短い休憩時間（5分）は固定し、一定回数のポモドーロ後に長めの休憩を挟みます。  
+シンプルな UI で、ブラウザで動作する Web アプリとして開発します。
 
-Currently, two official plugins are available:
+## 動作環境
+- **OS**: OS に依存しない（Windows / Mac / Linux）
+- **ブラウザ**: 最新の Chrome / Edge / Firefox / Safari
+- **解像度**: 1920×1080 以上を推奨
+- **必要なソフトウェア**: Node.js (開発用), 最新のブラウザ
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 機能一覧
+| No | 機能名 | 説明 |
+|----|------|------|
+| 1  | タイマー機能 | 25分のポモドーロと5分の短い休憩をカウントダウンする |
+| 2  | 長めの休憩機能 | 設定したポモドーロ回数ごとに長めの休憩（デフォルト30分）を挟む |
+| 3  | 開始・一時停止・リセット | タイマーの開始、一時停止、リセットを行う |
+| 4  | 音声通知 | タイマー終了時にキッチンタイマー音を鳴らす |
+| 5  | 音量調整 | 音の大きさを調整できる（ミュートはなし） |
+| 6  | タイマーの表示/非表示 | ボタンでタイマーを画面から隠したり表示したりできる |
+| 7  | タイマーの位置変更 | 画面上のデフォルト位置は右上だが、自由に動かせる |
+| 8  | ダークモード対応 | ユーザーがダークモードを選択できる |
 
-## Expanding the ESLint configuration
+## UI設計
+### ① タイマー画面
+- **デザイン**: トマトの形をしたタイマーを表示（超シンプル）
+- **表示要素**:  
+  - カウントダウン（例：`25:00` → `0:00`）
+  - ポモドーロ回数のカウント
+- **ボタン**:
+  - [開始]
+  - [一時停止]
+  - [リセット]
+  - [表示/非表示]
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### ② 設定画面
+- 長めの休憩の時間を設定（デフォルト30分）
+- 何回のポモドーロごとに長めの休憩を取るか設定（デフォルト4回）
+- 音量調整スライダー
+- ダークモード切り替え
 
-- Configure the top-level `parserOptions` property like this:
+## 技術スタック
+| 項目 | 技術 |
+|------|------|
+| フレームワーク | React (Vite) |
+| 言語 | TypeScript |
+| スタイル | CSS |
+| 状態管理 | useState, useEffect |
+| タイマー処理 | setInterval, clearInterval |
+| 音声通知 | HTML Audio API |
+| ドラッグ操作 | React Draggable or custom event handling |
+| データ保存 | LocalStorage（ユーザー設定の保存） |
+| デプロイ | GitHub Pages |
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## 画面遷移図
+- **メイン画面**
+  - タイマー表示（右上デフォルト、ドラッグで移動可能）
+  - タイマーボタン（開始・一時停止・リセット・表示切替）
+- **設定画面**
+  - 長めの休憩の設定
+  - 音量調整
+  - ダークモード切り替え
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## 開発の進め方
+1. **開発環境のセットアップ**
+   ```sh
+   git clone <リポジトリのURL>
+   cd <リポジトリ名>
+   npm install
+   npm run dev
