@@ -9,16 +9,6 @@ function App() {
   const [isRunning, setIsRunning] = useState(false); // タイマーの状態
   const nodeRef = useRef<HTMLDivElement>(null);
 
-  // 画面の中央位置を計算して初期位置として設定
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    setPosition({
-      x: window.innerWidth / 2 - 100, // 幅の中央
-      y: window.innerHeight / 2 - 50, // 高さの中央
-    });
-  }, []); // 初回マウント時のみ実行
-
   useEffect(() => {
     let timer: ReturnType<typeof setInterval> | null = null;
 
@@ -49,8 +39,8 @@ function App() {
   };
 
   return (
-    <Draggable nodeRef={nodeRef} defaultPosition={position}>
-      <div ref={nodeRef} div style={styles.container}>
+    <Draggable nodeRef={nodeRef}>
+      <div ref={nodeRef} style={styles.container}>
         <h1>🍅 ポモドーロタイマー</h1>
         <h2>{formatTime(time)}</h2>
         <div>
@@ -70,14 +60,16 @@ function App() {
 const styles = {
   container: {
     position: "fixed" as const,
-    top: "10px",
-    right: "10px",
+    left: "50%",
+    top: "50%",
+    transform: "translate(-50%, -50%)", // 画面中央に配置
     background: "white",
-    padding: "10px",
-    borderRadius: "8px",
-    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+    padding: "20px",
+    borderRadius: "12px",
+    boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
     textAlign: "center" as const,
     cursor: "grab",
+    minWidth: "250px",
   },
 };
 
